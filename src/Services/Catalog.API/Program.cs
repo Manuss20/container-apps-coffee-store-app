@@ -1,8 +1,18 @@
+using coffeecapp.Services.Catalog.API.Model;
+using coffeecapp.Services.Catalog.API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<CatalogDatabaseSettings>(
+    builder.Configuration.GetSection("CatalogDatabase"));
 
-builder.Services.AddControllers();
+builder.Services.AddSingleton<CatalogService>();
+
+builder.Services.AddControllers()
+                .AddJsonOptions(
+                        options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                        
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
